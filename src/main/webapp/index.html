@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>用户后台系统</title>
+    <link rel="stylesheet" href="static/layui/css/layui.css" media="all" />
+    <link rel="stylesheet" href="static/css/app.css" media="all">
+    <link rel="stylesheet" href="static/css/font-awesome.min.css">
+    <style type="text/css">
+        iframe{
+            width: 98%;
+            height: 98%;
+        }
+        .layui-tab-item{
+            height: 98%;
+        }
+    </style>
+</head>
+<body>
+<div class="layui-layout layui-layout-admin kit-layout-admin">
+   <!-- 头部区域-->
+    <div class="layui-header">
+        <!-- 头部区域（可配合layui已有的水平导航） -->
+        <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item"><a href="">退出系统</a></li>
+        </ul>
+    </div>
+<!--左侧的导航-->
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll">
+            <ul class="layui-nav layui-nav-tree  "  lay-shrink="all"   >
+                <li class="layui-nav-item layui-nav-item">
+                    <a href="javascript:;">人员管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="javascript:showTab(1001,'customer.html','客户信息表');">客户信息表</a></dd>
+                        <dd><a href="javascript:showTab(1002,'admin.html','管理员信息表');">管理员信息表</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item layui-nav-item">
+                    <a href="javascript:;">财务管理</a>
+                    <dl class="layui-nav-child">
+                      <dd><a href="javascript:showTab(1003,'cashpledge.html','押金表');">押金表</a></dd>
+                    </dl>
+                </li>
+                 <li class="layui-nav-item layui-nav-item">
+                    <a href="javascript:;">房屋管理</a>
+                    <dl class="layui-nav-child">
+                      <dd><a href="javascript:showTab(1004,'house.html','房屋信息表');">房屋信息表</a></dd>
+                    </dl>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="layui-body" id="container">
+        <!--内容主体区域-->
+        <div class="layui-tab" lay-filter="demo" style="width: 100%;height: 90%">
+            <ul class="layui-tab-title"></ul>
+            <ul class="layui-tab-content" style="width:99%;height: 98%"></ul>
+        </div>
+    </div>
+<div class="layui-footer">
+    <p class="layui-layout">欢迎您来到我们的平台</p>
+</div>
+</div>
+<script src="static/js/jquery.min.js"></script>
+<script src="static/layui/layui.js"></script>
+<script>
+    //JavaScript代码区域
+    var element;
+    layui.config({
+        base: 'static/layui/lay/modules/'
+    }).use(['element','app'], function(){
+        element = layui.element;
+        showTab(20000,"main.html","首页");
+    });
+    var tid=-1;
+    function showTab(id,u,n) {
+        if(tid>0){
+            element.tabDelete('demo',tid);
+        }
+        element.tabAdd('demo', {
+            title:n
+            ,content: '<iframe data-frameid="'+id+'" scrolling="auto" frameborder="0" src="'+u+'"></iframe>' //支持传入html
+            ,id:id
+        });
+        element.tabChange('demo', id);
+        element.render();
+        tid=id;
+    }
+</script>
+</body>
+</html>
