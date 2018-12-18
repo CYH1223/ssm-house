@@ -1,10 +1,204 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="UTF-8">
-		<title></title>
-	</head>
-	<body>
-		<p>押金表</p>
-	</body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>押金表</title>
+    <link rel="stylesheet" href="static/layui/css/layui.css" media="all"/>
+
+</head>
+<body>
+<h1>sdsdfdsf</h1>
+<!--搜索内容区域-->
+<!--<div class="layui-container">
+    <div class="layui-row" style="margin-top: 10px">
+        <div class="layui-col-xs3" style="margin-right: 20px">
+            <div class="layui-form-item layui-from-text">
+                <label class="layui-form-label">姓名：</label>
+                <div class="layui-input-block">
+                    <input type="text" id="username" name="username" class="layui-input" placeholder="用户名" />
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-xs2">
+            <div class="layui-col-xs3" style="margin-right: 10px">
+                <div class="layui-form-item layui-from-text">
+                    <div class="layui-input-block">
+                        <button class="layui-btn" onclick="searchData()"><i class="layui-icon layui-icon-search">搜索</i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-xs2">
+            <div class="layui-col-xs3" style="margin-right: 20px">
+                <div class="layui-form-item layui-from-text">
+                    <div class="layui-input-block">
+                        <button class="layui-btn" onclick="searchData()"><a href="addUser.html" class="layui-icon layui-icon-add-1">添加</a>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>-->
+<!--<div class="layui-row">
+    <div class="layui-col-md11">
+        &lt;!&ndash;表格内容区域开始&ndash;&gt;
+        <table id="tabledata" lay-filter="tableup"></table>
+        &lt;!&ndash;表格内容区域结束&ndash;&gt;
+        <script type="text/html" id="barop">
+            <a class="layui-btn layui-btn-mini" lay-event="edit">修改</a>
+            <a class="layui-btn layui-btn-danger layui-btn-mini" lay-event="del">删除</a>
+        </script>
+    </div>
+</div>-->
+<!--<table class="layui-hide" id="test" lay-filter="test"></table>
+
+<script type="text/html" id="toolbarDemo">
+    <div class="layui-btn-container">
+        <button class="layui-btn layui-btn-sm" lay-event="getCheckData">获取选中行数据</button>
+        <button class="layui-btn layui-btn-sm" lay-event="getCheckLength">获取选中数目</button>
+        <button class="layui-btn layui-btn-sm" lay-event="isAll">验证是否全选</button>
+    </div>
+</script>
+
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>-->
+
+<script src="static/js/jquery.min.js"></script>
+<script src="static/layui/layui.js"></script>
+
+<!--<script>
+    var tableIndex;
+    var form1;
+    layui.use(['table', 'form'], function () {
+        var table = layui.table;
+        form1 = layui.form;
+        //第一个实例
+        tableIndex = table.render({
+            elem: '#tabledata'//表格的id值
+            , url: '/ssm/userAll.do'//数据接口
+            , page: true //开启分页
+            , cols: [[
+                {field: 'uid', title: '用户ID', sort: true, fixed: 'left'}
+                , {field: 'username', title: '用户名'}
+                , {field: 'sex', title: '性别'}
+                , {field: 'age', title: '年龄'}
+                , {field: 'address', title: '地址'}
+                , {field: 'phone', title: '电话号码'}
+                , {field: 'right', title: '操作', width: 350, align: "center", toolbar: '#barop'}
+            ]]
+        });
+        table.on('tool(tableup)', function (obj) { //tool是工具条事件名，test是table原始容器的属性 lay-filter=“对应的值” obj当前行元素对象
+            var data = obj.data;//获取当前行数据 data 属性可以获取当前行的任意属性值
+            if (obj.event == "del") {  //obj.event 获取 lay-event 对应值
+                layer.confirm('是否确认删除用户？', function (index) {
+                    $.ajax({
+                        url: '/ssm/userDel.do',
+                        type: "post",
+                        data: "uid=" + data.uid,
+                        success: function (data) {
+                            if (data.code == 0) {
+                                obj.del();//删除表格中的对应行数据
+                                layer.close(index);
+                                layer.msg("删除成功", {icon: 6});
+                            } else {
+                                layer.msg("删除失败", {icon: 5});
+                            }
+                        }
+                    });
+                });
+            } else if (obj.event == "edit") {//修改
+                location.href = "userUpdate.html?uid=" + data.uid;
+            }
+        });
+    })
+
+    function searchData() {
+        tableIndex.reload({
+            where: { //设定异步数据接口的额外参数，任意设
+                username: $("#username").val()
+                , type: $("#type").val()
+            }
+            , page: {
+                curr: 1 //重新从第 1 页开始
+            }
+        });
+    }
+</script>-->
+
+<!--<script>
+    layui.use('table', function(){
+        var table = layui.table;
+
+        table.render({
+            elem: '#test'
+            ,url:'/test/table/demo1.json'
+            ,toolbar: '#toolbarDemo'
+            ,title: '用户数据表'
+            ,cols: [[
+                {type: 'checkbox', fixed: 'left'}
+                ,{field:'id', title:'ID', width:80, fixed: 'left', unresize: true, sort: true}
+                ,{field:'username', title:'用户名', width:120, edit: 'text'}
+                ,{field:'email', title:'邮箱', width:150, edit: 'text', templet: function(res){
+                        return '<em>'+ res.email +'</em>'
+                    }}
+                ,{field:'sex', title:'性别', width:80, edit: 'text', sort: true}
+                ,{field:'city', title:'城市', width:100}
+                ,{field:'sign', title:'签名'}
+                ,{field:'experience', title:'积分', width:80, sort: true}
+                ,{field:'ip', title:'IP', width:120}
+                ,{field:'logins', title:'登入次数', width:100, sort: true}
+                ,{field:'joinTime', title:'加入时间', width:120}
+                ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:150}
+            ]]
+            ,page: true
+        });
+
+        //头工具栏事件
+        table.on('toolbar(test)', function(obj){
+            var checkStatus = table.checkStatus(obj.config.id);
+            switch(obj.event){
+                case 'getCheckData':
+                    var data = checkStatus.data;
+                    layer.alert(JSON.stringify(data));
+                    break;
+                case 'getCheckLength':
+                    var data = checkStatus.data;
+                    layer.msg('选中了：'+ data.length + ' 个');
+                    break;
+                case 'isAll':
+                    layer.msg(checkStatus.isAll ? '全选': '未全选');
+                    break;
+            };
+        });
+
+        //监听行工具事件
+        table.on('tool(test)', function(obj){
+            var data = obj.data;
+            //console.log(obj)
+            if(obj.event === 'del'){
+                layer.confirm('真的删除行么', function(index){
+                    obj.del();
+                    layer.close(index);
+                });
+            } else if(obj.event === 'edit'){
+                layer.prompt({
+                    formType: 2
+                    ,value: data.email
+                }, function(value, index){
+                    obj.update({
+                        email: value
+                    });
+                    layer.close(index);
+                });
+            }
+        });
+    });
+</script>-->
+</body>
 </html>
