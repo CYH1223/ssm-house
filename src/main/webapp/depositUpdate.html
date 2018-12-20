@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>修改页面</title>
+    <link rel="stylesheet" href="static/layui/css/layui.css" media="all"/>
+    <script src="static/js/jquery.min.js"></script>
+    <script src="static/layui/layui.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            //获取请求参数id
+            var url = window.location.href;
+            var did = url.substring(url.indexOf('did') + 4)
+            //赋值
+            $("#did").val(did);
+            //ajax 根据did查询数据
+            $.ajax({
+                url: '/house/findDeposit',
+                data: {"did": did},
+                type: 'get',
+                dataType: 'json',
+                cache: false,
+                success: function (obj) {
+                    //赋值
+                    $("#did").val(did);
+                    $("#dmoney").val(obj.dmoney);
+                    $("#chargedate").val(obj.chargedate);
+                    $("#contractid").val(obj.contractid);
+                    $("#cname").val(obj.cname);
+                    $("#hid").val(obj.hid);
+                    $("#remark").val(obj.remark);
+                }
+            })
+        });
+    </script>
+
+</head>
+<body>
+<form class="layui-form" id="form2">
+    <input type="hidden" name="did" id="did" class="layui-input"/>
+    <input type="hidden" name="chargedate" class="layui-input" id="chargedate" />
+    <div class="layui-form-item">
+        <label class="layui-form-label">押金金额</label>
+        <div class="layui-input-block">
+            <input type="text" name="dmoney" id="dmoney" placeholder="请输入金额" autocomplete="off"
+                   class="layui-input"/>
+        </div>
+    </div>
+    <!--<div class="layui-form-item">
+        <label class="layui-form-label">收费日期</label>
+        <div class="layui-input-block">
+            <input type="text" name="chargedate" class="layui-input" id="chargedate" />
+        </div>
+    </div>-->
+    <div class="layui-form-item">
+        <label class="layui-form-label">合同编号</label>
+        <div class="layui-input-block">
+            <input type="text" name="contractid" id="contractid" class="layui-input"/>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">客户姓名</label>
+        <div class="layui-input-block">
+            <input type="text" name="cname" id="cname" class="layui-input"/>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">房屋编号</label>
+        <div class="layui-input-block">
+            <input type="text" name="hid" id="hid" class="layui-input"/>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">备注</label>
+        <div class="layui-input-block">
+            <textarea name="remark" id="remark" class="layui-textarea"></textarea>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button type="button" onclick="returnBack()" class="layui-btn">返回</button>
+            <button class="layui-btn" lay-submit lay-filter="formDemo">修改</button>
+        </div>
+    </div>
+</form>
+
+<script>
+    layui.use(['form', 'layer', 'laydate'], function () {
+        var form = layui.form, layer = layui.layer, laydate = layui.laydate;
+
+        // 时间控件
+        laydate.render({
+           elem:'#chargedate'
+        });
+
+        //监听提交
+        form.on('submit(formDemo)', function (data) {
+            $.ajax({
+                url: '/house/updateDeposit',
+                data: $("#form2").serialize(), // 表单序列化，可以快速获地取表单的全部属性值
+                type: 'post',
+                dataType: 'json',
+                cache: false,
+                /*success: function (obj) {
+                    if (obj.code === 0) {
+                        layer.msg("修改成功", {icon: 6});
+                        // window.parent.location.href = "deposit.html";
+                        window.location.href = "deposit.html";
+                    }
+                }*/
+                success: function (date) {
+                    if (date.code === 0) {
+                        layer.msg("修改成功", {icon: 6});
+                        // window.parent.location.href = "deposit.html";
+                        window.location.href = "deposit.html";
+                    }
+                }
+            });
+            return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+        });
+    })
+
+    function returnBack() {
+        location.href = "deposit.html";
+    }
+</script>
+
+</body>
+</html>

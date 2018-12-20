@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qf.dao.DepositDao">
+    <select id="listAllDepositByPage" resultType="com.qf.pojo.po.Deposit">
+        select * from deposit
+        <where>
+            <if test="cname != null and cname != '' ">
+                and cname like "%"#{cname}"%"
+            </if>
+        </where>
+        limit #{begin},#{limit}
+    </select>
+
+    <select id="getDepositTotalCount" resultType="long">
+        select count(*) from deposit
+        <where>
+            <if test="cname != null and cname != '' ">
+                and cname like "%"#{cname}"%"
+            </if>
+        </where>
+    </select>
+
+    <delete id="deleteDepositById" parameterType="int">
+        delete  from  deposit  where did=#{did}
+    </delete>
+
+    <select id="findDepositById" parameterType="int" resultType="com.qf.pojo.po.Deposit">
+        select * from deposit where did=#{did}
+    </select>
+
+    <update id="updateDeposit" parameterType="com.qf.pojo.po.Deposit">
+        update deposit
+        set dmoney = #{dmoney}, chargedate = #{chargedate}, contractid=#{contractid},cname=#{cname},hid=#{hid},remark=#{remark}
+        <!--<set>
+            <if test="dmoney!=null and dmoney!=''">dmoney=#{dmoney},</if>
+            <if test="chargedate!=null and chargedate!=''">chargedate=#{chargedate},</if>
+            <if test="contractid!=null and contractid !=''">contractid=#{contractid},</if>
+            <if test="cname!=null and cname !=''">cname=#{cname},</if>
+            <if test="hid!=null and hid!=''">hid=#{hid},</if>
+            <if test="remark!=null and remark !=''">remark=#{remark},</if>
+        </set>-->
+        where did=#{did}
+    </update>
+
+    <!--前台sql+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
+
+    <select id="showAllDeposit" resultType="com.qf.pojo.po.Deposit">
+        select * from deposit
+    </select>
+
+
+</mapper>

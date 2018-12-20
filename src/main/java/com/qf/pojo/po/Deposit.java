@@ -1,14 +1,12 @@
 package com.qf.pojo.po;
 
-import org.relaxng.datatype.helpers.StreamingValidatorImpl;
-
-import java.util.Date;
-
 public class Deposit {
-    private String did;// 收费编号
+    private int did;// 收费编号
     private double dmoney;// 押金金额
-    private Date chargedate;// 收费日期
-    private String contractid;// 合同百编号
+//    @JsonFormat(pattern = "yyyy-MM-dd")
+//    private Date chargedate;// 收费日期
+    private String chargedate;// 收费日期
+    private String contractid;// 合同编号
     private String cname;// 客户姓名
     private int hid;// 房屋编号
     private String remark;// 备注
@@ -16,11 +14,11 @@ public class Deposit {
     public Deposit() {
     }
 
-    public String getDid() {
+    public int getDid() {
         return did;
     }
 
-    public void setDid(String did) {
+    public void setDid(int did) {
         this.did = did;
     }
 
@@ -32,11 +30,19 @@ public class Deposit {
         this.dmoney = dmoney;
     }
 
-    public Date getChargedate() {
+    /*public Date getChargedate() {
         return chargedate;
     }
 
     public void setChargedate(Date chargedate) {
+        this.chargedate = chargedate;
+    }*/
+
+    public String getChargedate() {
+        return chargedate;
+    }
+
+    public void setChargedate(String chargedate) {
         this.chargedate = chargedate;
     }
 

@@ -1,19 +1,267 @@
 <!DOCTYPE html>
-<html>
-	<head>
-		<meta charset="UTF-8">
-		<meta name="viewport"
-			  content="width=device-width, initial-scale=1, maximum-scale=1">
-		<title>订单表</title>
-		<link rel="stylesheet" href="static/layui/css/layui.css" media="all"/>
-	</head>
-	<body>
-		<p>订单表sdsdds</p>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+		  content="width=device-width, initial-scale=1, maximum-scale=1">
+	<title>订单</title>
+	<link rel="stylesheet" href="static/layui/css/layui.css" />
+	<script type="text/javascript" src="static/layui/layui.all.js" ></script>
+	<script type="text/javascript" src="static/js/jquery.min.js" ></script>
+	<style type="text/css">
+
+		.laytable-cell-1-picture{
+			height: 100%;
+			max-width: 100%;
+		}
+	</style>
+</head>
+<body>
+<!--搜索内容区域-->
+<div class="layui-container">
+	<div class="layui-row" style="margin-top: 10px">
+
+        <div class="layui-col-xs2"style="float: left">
+
+                <div class="layui-form-item layui-from-text">
+                    <div class="layui-input-block">
+                        <button class="layui-btn layui-btn-primary layui-btn-radius" onclick="addData()"><i class="">添加</i>
+                        </button>
+                    </div>
+                </div>
+
+        </div>
+
+
+		<div class="layui-col-xs4" style="margin-right: 15px;float: right">
+			<div class="layui-form-item layui-from-text">
+				<label class="layui-form-label"></label>
+				<div class="layui-input-block">
+					<input type="text" id="cname" name="cname" class="layui-input" placeholder="用户名" />
+				</div>
+			</div>
+		</div>
+		<div class="layui-col-xs4"style="float: right">
+			<div class="layui-col-xs3" style="margin-right: 20px;float: right">
+				<div class="layui-form-item layui-from-text">
+					<div class="layui-input-block">
+						<button class="layui-btn" onclick="searchData()"><i class="layui-icon layui-icon-search">搜索</i>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--<div class="layui-col-xs2">-->
+			<!--<div class="layui-col-xs3" style="margin-right: 20px">-->
+				<!--<div class="layui-form-item layui-from-text">-->
+					<!--<div class="layui-input-block">-->
+						<!--&lt;!&ndash;<button class="layui-btn" onclick="searchData()"><a href="addUser.html" class="layui-icon layui-icon-add-1">添加订单</a>&ndash;&gt;-->
+						<!--&lt;!&ndash;</button>&ndash;&gt;-->
+					<!--</div>-->
+				<!--</div>-->
+			<!--</div>-->
+		<!--</div>-->
+	</div>
+</div>
+<div class="layui-row">
+	<div class="layui-col-md11">
+		<!--表格内容区域开始-->
+		<table id="tabledata" lay-filter="tableup"></table>
+		<!--表格内容区域结束-->
+		<script type="text/html" id="barop">
+			<a  class="layui-btn layui-btn-xs" lay-event="edit">修改</a>
+			<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+		</script>
+	</div>
+</div>
+
+
+<div id="motaikunag" style="display: none;">
+
+    <form class="layui-form"  id="form3">
+        <input type="hidden" name="oid"  id="oid" placeholder="订单号" autocomplete="off" class="layui-input"/>
+        <div class="layui-form-item">
+            <label class="layui-form-label">客户姓名</label>
+            <div class="layui-input-block">
+                <input type="text" name="cname"   placeholder="请输入姓名" autocomplete="off" class="layui-input"/>
+            </div>
+        </div>
 
 
 
 
-		<script src="static/js/jquery.min.js"></script>
-		<script src="static/layui/layui.js"></script>
-	</body>
+        <div class="layui-form-item">
+            <label class="layui-form-label">图片</label>
+            <div class="layui-input-block">
+                <!--<input type="text" name="picture"  value="images/002.png" placeholder="请输入图片地址" autocomplete="off" class="layui-input"/>-->
+            <select name="picture" >
+                <option></option>
+                <option value="orderFile/images/001.png">images/001.png</option>
+                <option value="orderFile/images/002.png">images/002.png</option>
+                <option value="orderFile/images/003.png">images/003.png</option>
+            </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">房型</label>
+            <div class="layui-input-block">
+                <!--<input type="text" name="houseType"  id="houseType" placeholder="请输入房型" autocomplete="off" class="layui-input"/>-->
+                <select name="houseType" >
+                    <option value="商务房">商务房</option>
+                    <option value="经济房">经济房</option>
+                    <option value="骚房">骚房</option>
+                    <option value="景观房">景观房</option>
+                    <option value="牛逼房">牛逼房</option>
+                    <option value="移动房">移动房</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">价格</label>
+            <div class="layui-input-block">
+                <input type="text" name="price"  id="price"  placeholder="请输入价格" autocomplete="off" class="layui-input"/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">面积</label>
+            <div class="layui-input-block">
+                <input type="text" name="area"  id="area" placeholder="请输入面积大小" autocomplete="off" class="layui-input"/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">地址</label>
+            <div class="layui-input-block">
+                <input name="position" id="position" placeholder="请输入地址" class="layui-input"/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit lay-filter="formDemo1"> 确定增加</button>
+                <button class="layui-btn" > <a href="order.html">放弃增加</a></button>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+
+
+
+
+<script>
+	var tableIndex;
+	var  form1;
+	layui.use(['table','form'],function (){
+		var  table=layui.table;
+		form1=layui.form;
+		//第一个实例
+		tableIndex=table.render({
+			elem:'#tabledata'//表格的id值
+			,url:'/house/orders'//数据接口
+			,page:true //开启分页
+	        ,groups:10
+				,cols:[[
+				// {type: 'checkbox', fixed: 'left'},
+				{field:'oid',title:'订单号', style:'align:center',width:200,sort:true}
+				,{field:'cname',title:'用户名'}
+				,{field:'picture',title:'图片',width: 150,style:'height:100px;',templet:'<div><img src="{{ d.picture}}" style="max-width: 100% ;height: 100px"></div>'}
+				,{field:'houseType',title:'房型'}
+				,{field:'price',title:'价格'}
+				,{field:'area',title:'面积'}
+				,{field:'position',title:'地址'}
+				,{field: 'right',title:'操作',width:150,align:"center",toolbar:'#barop'}
+			]]
+		});
+
+		table.on('tool(tableup)',function (obj) { //tool是工具条事件名，test是table原始容器的属性 lay-filter=“对应的值” obj当前行元素对象
+			var data =obj.data;//获取当前行数据 data 属性可以获取当前行的任意属性值
+			if(obj.event=="del"){  //obj.event 获取 lay-event 对应值
+				layer.confirm('是否确认删除用户？',function (index) {
+					$.ajax({
+						url:'/house/orderDelete',
+						type:"post",
+						data:"oid="+data.oid,
+						success:function (data) {
+							if(data.code==0){
+								obj.del();//删除表格中的对应行数据
+								layer.close(index);
+								layer.msg("删除成功",{icon:6});
+							} else{
+								layer.msg("删除失败",{icon:5});
+							}
+						}
+					});
+				});
+			}else  if(obj.event=="edit"){//修改
+				location.href="orderUpdate.html?oid="+data.oid;
+			}
+		});
+	})
+
+
+    function addData() {
+         //页面层
+        var form=layui.form;
+
+        form.render("select");
+        layer.open({
+            type: 1,
+            skin: 'layui-layer-rim', //加上边框
+            area: ['600px', '400px'], //宽高
+
+            content: $('#motaikunag')  //调到新增页面
+        });
+    }
+
+
+    layui.use(['form','layer'],function(){
+        var form=layui.form,layer=layui.layer;
+        //监听提交
+        form.on('submit(formDemo1)',function(data){
+            $.ajax({
+                url:'/house/addOrder',
+                data:$("#form3").serialize(),//序列化表单，直接获取表单中的所有值
+                type:'post',
+                dataType:'json',
+                cache:false,
+                success:function(obj){
+                    if(obj.code==0){
+                        layer.msg("添加成功！！！",{icon:6});
+
+                        //  window.parent.location.href="userList.html";
+                        window.location.href="order.html";
+                    }
+                }
+            });
+            return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+        });
+    })
+
+
+
+
+
+
+
+	function searchData(){
+		tableIndex.reload({
+			where: { //设定异步数据接口的额外参数，任意设
+				cname: $("#cname").val()
+				 // , type: $("#type").val()
+			}
+			, page: {
+				curr: 1 //重新从第 1 页开始
+			}
+		});
+	}
+	// 事件监听，按下搜索，失败。。。。。。。
+	// $("#cname").bind("keyup", function (e) {
+	// 	if (e.keyCode == 13) {
+	// 		var type = "getInfo";
+	// 		active[type] ? active[type].call(this) : '';
+	// 	}
+	// });
+
+</script>
+</body>
 </html>

@@ -11,14 +11,12 @@
         http://www.springframework.org/schema/mvc/spring-mvc.xsd
 
 ">
-
     <!--第一步：扫描注解类-->
     <!--含义是： @Controller public class UserAction{}-->
     <context:component-scan base-package="com.qf.web"/>
     <!--第二步：mvc注解-->
     <mvc:annotation-driven/>
-    <!--放行静态资源-->
-    <mvc:default-servlet-handler/>
+
     <!--第三步：视图解析器-->
     <!--<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         &lt;!&ndash;属性注入&ndash;&gt;
@@ -29,13 +27,28 @@
 
     <!--适合用于解析字符串return "redirect:listUsers";-->
     <bean class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+        <property name="prefix" value="/WEB-INF/jsp/"/>
+        <property name="suffix" value=".jsp"/>
+        <property name="viewClass" value="org.springframework.web.servlet.view.InternalResourceView"/>
+    </bean>
+
+    <bean class="org.springframework.web.servlet.view.UrlBasedViewResolver">
         <property name="prefix" value="/WEB-INF/html/"/>
         <property name="suffix" value=".html"/>
         <property name="viewClass" value="org.springframework.web.servlet.view.InternalResourceView"/>
     </bean>
+
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
         <property name="defaultEncoding" value="utf-8"/>
         <property name="maxUploadSize" value="102400"/>
         <property name="uploadTempDir" value="file:F:\temp"/>
     </bean>
+
+    <!--放行静态资源-->
+    <mvc:default-servlet-handler/>
+
+    <!-- 静态资源映射 -->
+    <mvc:resources mapping="/depositStatic/**" location="/depositStatic/"/>
+    <mvc:resources location="/orderFile/" mapping="/orderFile/**" />
+
 </beans>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qf.dao.OrderDao">
+         <select id="showOrders" resultType="com.qf.pojo.po.Order">
+             select * from fuck
+                 <where>
+                     <if test="cname!=null and cname!=''">
+                         and  cname like  "%"#{cname}"%"
+                     </if>
+                 </where>
+                 limit #{offset},#{limit}
+         </select>
+       <select id="countOrder" resultType="long">
+           select count(*) from fuck
+           <where>
+               <if test="cname!=null and cname!=''">
+                   and  cname like  "%"#{cname}"%"
+               </if>
+           </where>
+
+       </select>
+    <delete id="deleteOrderById" parameterType="String">
+        delete from fuck where oid=#{oid}
+    </delete>
+    <select id="findOrder" parameterType="String" resultType="com.qf.pojo.po.Order">
+        select  * from fuck where oid=#{oid}
+    </select>
+  <update id="toUpdateOrder" parameterType="com.qf.pojo.po.Order">
+
+      update fuck set cname=#{cname},picture=#{picture},houseType=#{houseType},price=#{price},area=#{area},position=#{position}
+      where oid=#{oid}
+
+  </update>
+    <select id="findAllorders" parameterType="com.qf.pojo.po.OrderPage" resultType="com.qf.pojo.po.Order">
+        select * from fuck limit #{offset},#{pageSize}
+    </select>
+    <select id="findAll" resultType="com.qf.pojo.po.Order" >
+        select * from fuck
+    </select>
+    <insert id="addOrder" parameterType="com.qf.pojo.po.Order">
+        insert  into fuck values(#{oid},#{cname},#{picture},#{houseType},#{price},#{area},#{position})
+    </insert>
+</mapper>

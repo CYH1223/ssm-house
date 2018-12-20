@@ -1,0 +1,264 @@
+﻿#pointContent {
+}
+
+#pointContent .ui-tab dt {
+    width: 115px
+}
+
+#pointContent .ui-tab dd {
+    width: 180px
+}
+
+#pointContent .content {
+    padding: 28px 8px 30px;
+    background: #fff;
+    border-top: 0
+}
+
+#pointContent .content .error {
+    background: #f1f1f1;
+    border: 2px solid #e2e2e2;
+    margin: 28px 0;
+    padding: 60px 0;
+    text-align: center
+}
+
+#pointContent .detail .masthead {
+    background-color: #f1f1f1;
+    border-width: 1px 0;
+    border-color: #e3e3e3;
+    border-style: solid;
+    /*color: #999*/
+}
+
+#pointContent .detail .masthead span {
+    display: block;
+    float: left;
+    border-width: 1px 0;
+    border-right: 1px solid #e3e3e3;
+    height: 32px;
+    line-height: 32px;
+    text-align: center;
+    overflow: hidden
+
+}
+
+#pointContent .detail .masthead1 span {
+    display: block;
+    float: left;
+    border-width: 1px 0;
+    border-right: 1px solid #e3e3e3;
+    height: 32px;
+    line-height: 32px;
+    text-align: center;
+    overflow: hidden;
+    border-bottom: 1px solid #f1f1f1;
+}
+
+#pointContent .detail .masthead span.right {
+    border-right: 0
+}
+
+#pointContent .detail .item-list {
+    margin-top: 12px;
+    border-top: 1px solid #f1f1f1
+}
+
+#pointContent .detail .item {
+    border-bottom: 1px solid #f1f1f1
+}
+
+#pointContent .summary {
+    padding: 28px 0;
+    border: 2px solid #e2e2e2;
+    background-color: #f1f1f1
+}
+
+#pointContent .summary .item {
+    float: left;
+    height: 100px;
+    border-right: 1px solid #e2e2e2
+}
+
+#pointContent .summary .valid {
+    width: 265px
+}
+
+#pointContent .summary .expired-soon {
+    width: 275px
+}
+
+#pointContent .summary .exchange {
+    width: 610px;
+    border-right: 0
+}
+
+#pointContent .summary .exchange a {
+    display: block;
+    width: 260px;
+    height: 44px;
+    margin: 28px auto;
+    line-height: 44px;
+    background: #d83c59;
+    color: #fff;
+    font-size: 18px;
+    border-radius: 3px;
+    text-align: center
+}
+
+#pointContent .summary .exchange a:hover {
+    text-decoration: none
+}
+
+#pointContent .summary span {
+    display: block;
+    text-indent: 60px;
+    text-align: left
+}
+
+#pointContent .summary .desc {
+    font-size: 18px;
+    font-weight: 700;
+    color: #666;
+    height: 24px;
+    line-height: 24px
+}
+
+#pointContent .summary .point {
+    font-size: 34px;
+    font-weight: 700;
+    color: #288c29;
+    height: 40px;
+    line-height: 40px
+}
+
+#pointContent .summary .date {
+    font-size: 12px;
+    color: #999;
+    line-height: 24px
+}
+
+#pointContent .detail {
+    margin-top: 28px
+}
+
+#pointContent .detail .why {
+    width: 380px
+}
+
+#pointContent .detail .what {
+    width: 210px;
+    text-align: center
+}
+
+#pointContent .detail .when {
+    width: 380px;
+    text-align: center
+}
+
+#pointContent .detail .notes {
+    width: 180px;
+    padding-left: 15px
+}
+
+#pointContent .detail .item {
+    padding: 20px 0
+}
+
+#pointContent .detail .item div {
+    float: left;
+    overflow: hidden
+}
+
+#pointContent .detail .why .img {
+    float: left;
+    display: block;
+    width: 60px;
+    height: 60px;
+    overflow: hidden;
+    text-align: center;
+    margin: 0 10px 0 20px
+}
+
+#pointContent .detail .why .title, #pointContent .detail .why .order-number {
+    display: block;
+    line-height: 20px;
+    text-align: left
+}
+
+#pointContent .detail .why .title {
+    color: #333;
+    width: 290px;
+    height: 40px;
+    overflow: hidden
+}
+
+#pointContent .detail .why .order-number {
+    height: 20px;
+    color: #999
+}
+
+#pointContent .detail .item .what {
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 60px
+}
+
+#pointContent .detail .what .plus {
+    color: #b1000f
+}
+
+#pointContent .detail .what .minus {
+    color: #30992e
+}
+
+#pointContent .detail .what .freezed {
+    color: #999
+}
+
+#pointContent .detail .item .when {
+    line-height: 60px;
+    color: #999
+}
+
+#pointContent .detail .item .notes {
+    line-height: 60px;
+    color: #999
+}
+
+#pointContent .pager {
+    margin-top: 10px
+}
+
+.w990 #pointContent .ui-tab dd {
+    width: 155px
+}
+
+.w990 #pointContent .summary .valid {
+    width: 245px
+}
+
+.w990 #pointContent .summary .expired-soon {
+    width: 260px
+}
+
+.w990 #pointContent .summary .exchange {
+    width: 460px
+}
+
+.w990 #pointContent .detail .why {
+    width: 325px
+}
+
+.w990 #pointContent .detail .why .title {
+    width: 230px;
+    *width: 210px
+}
+
+.w990 #pointContent .detail .what {
+    width: 164px
+}
+
+.w990 #pointContent .detail .when {
+    width: 285px
+}
