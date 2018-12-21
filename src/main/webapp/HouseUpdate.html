@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="static/layui/css/layui.css" />
+    <script type="text/javascript" src="static/layui/layui.js" ></script>
+    <script type="text/javascript" src="static/js/jquery.min.js" ></script>
+    <title>房屋修改</title>
+</head>
+
+<body>
+
+<form class="layui-form"  id="form2">
+    <input type="hidden" name="hid" id="hid" required  lay-verify="required" placeholder="房屋编号" autocomplete="off" class="layui-input">
+    <div class="layui-form-item">
+        <label class="layui-form-label">房型</label>
+        <div class="layui-input-block">
+            <input type="text" name="houseType" id="houseType" required  lay-verify="required" placeholder="请输入房型" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">价格</label>
+        <div class="layui-input-block">
+            <input type="text" name="price" id="price" required  lay-verify="required" placeholder="请输入价格" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">户型</label>
+        <div class="layui-input-block">
+            <input type="text" name="unit" id="unit" required  lay-verify="required" placeholder="请输入户型" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">面积</label>
+        <div class="layui-input-block">
+            <input type="text" name="area" id="area" required  lay-verify="required" placeholder="请输入面积" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">朝向</label>
+        <div class="layui-input-block">
+            <input type="text" name="orientation" id="orientation" required  lay-verify="required" placeholder="请输入朝向" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">地址</label>
+        <div class="layui-input-block">
+            <input type="text" name="site" id="site" required  lay-verify="required" placeholder="请输入地址" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">图片</label>
+        <div class="layui-input-block">
+            <input type="text" name="picture" id="picture" required  lay-verify="required" placeholder="请输入图片url" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item" style="margin-top:40px">
+        <div class="layui-input-block">
+            <button class="layui-btn  layui-btn-submit " lay-submit="" lay-filter="formDemo">确认保存</button>
+            <button class="layui-btn layui-btn-primary"><a href="house.html">返回</a></button>
+        </div>
+    </div>
+</form>
+
+
+
+<script type="text/javascript" >
+    $(function () {
+        //获取请求参数id
+        var url=window.location.href;
+        //同过截取发过来的url地址来得到oid
+        var hid=url.substring(url.indexOf('hid')+4)
+        //赋值
+        $("#hid").val(hid);
+        //ajax 根据hid查询数据
+        $.ajax({
+            url:'/house/getHouse',
+            data:{"hid":hid},
+            type:'post',
+            dataType:'json',
+            cache:false,
+            success:function (data) {
+                //赋值
+                $("#hid").val(data.hid);
+                $("#houseType").val(data.houseType);
+                $("#price").val(data.price);
+                $("#unit").val(data.unit);
+                $("#area").val(data.area);
+                $("#orientation").val(data.orientation);
+                $("#site").val(data.site);
+                $("#picture").val(data.picture);
+            }
+        })
+    });
+
+    layui.use(['form','layer'],function(){
+        var form=layui.form,layer=layui.layer;
+        //监听提交
+        form.on('submit(formDemo)',function(data){
+            $.ajax({
+                url:'/house/edit',
+                data:$("#form2").serialize(),//序列化表单，直接获取表单中的所有值
+                type:'post',
+                dataType:'json',
+                cache:false,
+                success:function(obj){
+                    if(obj.code==1){
+                        layer.msg("修改成功",{icon:6});
+                        window.location.href="http://localhost:8080/house/house.html";
+                    }
+                }
+            });
+        });
+    })
+</script>
+</body>
+</html>

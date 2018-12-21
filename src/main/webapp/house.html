@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>房屋后台信息</title>
+	<meta name="renderer" content="webkit">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<link rel="stylesheet" href="static/layui/css/layui.css" />
+	<script type="text/javascript" src="static/layui/layui.all.js" ></script>
+	<script type="text/javascript" src="static/js/jquery.min.js" ></script>
+</head>
+<body>
+<!--新增模态框-->
+<div id="add-main" style="display: none;">
+<form class="layui-form" id="add-form">
+	<div class="layui-form-item">
+		<label class="layui-form-label">房型</label>
+		<div class="layui-input-block">
+			<input type="text" name="houseType" required  lay-verify="required" placeholder="请输入房型" autocomplete="off" class="layui-input">
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">价格</label>
+		<div class="layui-input-block">
+			<input type="text" name="price" required  lay-verify="required" placeholder="请输入价格" autocomplete="off" class="layui-input">
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">户型</label>
+		<div class="layui-input-block">
+			<input type="text" name="unit" required  lay-verify="required" placeholder="请输入户型" autocomplete="off" class="layui-input">
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">面积</label>
+		<div class="layui-input-block">
+			<input type="text" name="area" required  lay-verify="required" placeholder="请输入面积" autocomplete="off" class="layui-input">
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">朝向</label>
+		<div class="layui-input-block">
+			<input type="text" name="orientation" required  lay-verify="required" placeholder="请输入朝向" autocomplete="off" class="layui-input">
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">地址</label>
+		<div class="layui-input-block">
+			<input type="text" name="site" required  lay-verify="required" placeholder="请输入地址" autocomplete="off" class="layui-input">
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">图片</label>
+		<div class="layui-input-block">
+			<input type="text" name="picture" required  lay-verify="required" placeholder="请输入图片url" autocomplete="off" class="layui-input">
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<div class="layui-input-block">
+			<button class="layui-btn" lay-submit lay-filter="save">立即提交</button>
+			<!--<button class="layui-btn" > <a href="house.html">返回</a></button>-->
+			<button type="reset" class="layui-btn layui-btn-primary" id="closeBtn">重置</button>
+		</div>
+	</div>
+</form>
+</div>
+
+<!--后台管理界面-->
+<table class="layui-hide" id="test" lay-filter="test"></table>
+<script type="text/html" id="toolbarDemo">
+	<div class="demoTable">
+		<!--搜索：-->
+		<div class="layui-inline">
+			<input class="layui-input" name="houseType" id="houseType" placeholder="房屋" autocomplete="off">
+		</div>
+		<button class="layui-btn layui-btn-radius" data-type="reload" id="sousuo" onclick="searchData()"><i class="layui-icon layui-icon-search">搜索</i></button>
+		<button style="float: right" class="layui-btn" data-type="reload"onclick="onAddBtn()" id="toAddHouse">新增</button>
+
+	</div>
+</script>
+<script type="text/html" id="barDemo">
+	<a class="layui-btn layui-btn-xs" lay-event="edit" id="updata" onclick="EidtUv()">编辑</a>
+	<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del" id="shanchu">删除</a>
+</script>
+
+<script>
+
+
+	/*新增弹出层js*/
+    function onAddBtn(){
+        //页面层-自定义
+        layer.open({
+            type: 1,
+            title:"房屋新增",
+            closeBtn: false,
+            shift: 2,
+            area: ['750px', '450px'],
+            shadeClose: true,
+            content: $("#add-main"),
+            success: function(layero, index){},
+            yes:function(){
+
+            }
+        });
+    }
+    layui.use(['layer', 'form'], function () {
+        var layer = layui.layer,
+            $ = layui.jquery,
+            form = layui.form;
+
+        //提交监听事件
+        form.on('submit(save)', function (data) {
+            params = data.field;
+            submit($,params);
+            return false;
+        })
+
+    })
+
+    //提交
+    function submit($,params){
+        $.post('/house/SeveHouse', params, function (res) {
+            if (res.status==1) {
+                layer.msg(res.message,{icon:1},function(SeveHouse){
+                    CloseWin();
+                })
+            }/*else if(res.status==2){
+                layer.msg(res.message,{icon:2},function(){
+                    parent.location.href='/house/ListHouse';
+                    CloseWin();
+                })
+            }*/else{
+                /*layer.msg(res.message,{icon:0},function(){*/
+                    location.reload(); // 页面刷新
+                    /*return false*/
+                /*})*/
+            }
+        }, 'json');
+    }
+    debugger;
+    //关闭页面
+    function CloseWin(){
+        parent.location.reload(); // 父页面刷新
+        var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+        parent.layer.close(index); //再执行关闭
+    }
+
+
+/************查询所有房屋***********/
+    var tableIndex;
+    var  form1;
+    layui.use('table', function(){
+        form1=layui.form;
+        var table = layui.table;
+     tableIndex=  table.render({
+            elem: '#test'
+            ,url:'/house/ListHouse'
+            ,toolbar: '#toolbarDemo'
+            ,title: '房屋数据表'
+            ,cols: [[
+                {type:'checkbox'}
+                ,{field:'houseType',title:'房型',width:150}
+                ,{field:'price',title:'价格',width:80}
+                ,{field:'unit',title:'户型',width:150}
+                ,{field:'area',title:'面积',width:80}
+                ,{field:'orientation',title:'朝向',width:80}
+                ,{field:'site',title:'地址'}
+                ,{field:'picture',title:'图片'/*,width: 200,style:'height:100px;',templet:'<div><img src="{{ d.picture}}" style="max-width: 100% ;height: 100px"></div>'*/}
+                ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:200}
+            ]]
+            ,page: true
+			,limit: 8
+
+        });
+        //完整分页
+        layui.use(['laypage', 'layer'], function() {
+            var laypage = layui.laypage
+                , layer = layui.layer;
+            laypage.render({
+                elem: 'demo7'
+                , count: 100
+                , layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
+                , jump: function (obj) {
+                    console.log(obj)
+                }
+            });
+        });
+        /*删除房屋*/
+        table.on('tool(test)',function (obj) { //tool是工具条事件名，test是table原始容器的属性 lay-filter=“对应的值” obj当前行元素对象
+            var data =obj.data;//获取当前行数据 data 属性可以获取当前行的任意属性值
+            if(obj.event=="del"){  //obj.event 获取 lay-event 对应值
+                layer.confirm('是否确认删除用户？',function (index) {
+                    $.ajax({
+                        url:'/house/delete',
+                        type:"get",
+                        data:"hid="+data.hid,
+                        success:function (data) {
+                            if(data===1){
+                                obj.del();//删除表格中的对应行数据
+                                layer.close(index);
+                                layer.msg("删除成功",{icon:6});
+                            } else{
+                                layer.msg("删除失败",{icon:5});
+                            }
+                        }
+                    });
+                });
+            }else  if(obj.event==="edit"){//修改
+                location.href="HouseUpdate.html?hid="+data.hid;
+            }
+        });
+    });
+
+    /*搜索*/
+    function searchData(){
+        tableIndex.reload({
+            where: { //设定异步数据接口的额外参数，任意设
+                houseType: $("#houseType").val()
+            }
+            , page: {
+                curr: 1 //重新从第 1 页开始
+            }
+        });
+    }
+
+</script>
+
+</body>
+</html>

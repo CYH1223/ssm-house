@@ -325,6 +325,13 @@
 <script>
     with (document) with (body) with (insertBefore(createElement("script"), firstChild)) setAttribute("exparams", "category=&userid=1019026989&aplus&udpid=UoH%252B7%252BzX3hx%252FIw%253D%253D&&yunid=&3b7765e37d85&trid=654769a515452709159326812e&asid=AS0evTyD9hpchJzYLwAAAACpkhCQh8Cgbw==", id = "tb-beacon-aplus", src = (location > "https" ? "//g" : "//g") + ".alicdn.com/alilog/mlog/aplus_v2.js")
 </script>
+<script src="static/js/jquery.min.js"></script>
+
+<script>
+    $("#entry").attr("disabled",true);
+    $("#entry").css("pointer-events","none");
+</script>
+
 <div id="mallPage" class="mui-global-biz-vip w1190 ">
     <style>
         button {
@@ -518,10 +525,10 @@
         <div class="mui-zebra-module fragment" data-module-id="100" id="J_100">
             <ul class="navContent" data-spm="15">
                 <li class="nav-item j_nav_index">
-                    <a class="o" href="//vip.tmall.com">首页</a>
+                    <a class="o" href="http://localhost:8080/house/">首页</a>
                 </li>
                 <li class="nav-item">
-                    <span class="o"><a
+                    <span class="o"><a id="entry" class="entry"
                             href="//pages.tmall.com/wow/jifen/act/point-award?spm=3700.7045653.15.d10.8gtI8Q&amp;acm=lb-zebra-153824-761733.1003.4.2638737&amp;scm=1003.4.lb-zebra-153824-761733.OTHER_15114912510921_2638737"
                             target="_blank">小积分抽大奖</a></span>
                 </li>

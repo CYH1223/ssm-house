@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>全部用户</title>
+    <link rel="stylesheet" href="../house/static/layui/css/layui.css" />
+    <script type="text/javascript" src="../house/static/layui/layui.js" ></script>
+    <script type="text/javascript" src="../house/static/js/jquery.min.js" ></script>
+</head>
+<body>
+<!--搜索内容区域-->
+<div id="toolbar" class="demoTable">
+    <div style="float: right">
+        <div class="layui-inline">客户姓名：</div>
+        <div id="searchInput" class="layui-inline">
+            <input type="text" id="cname" name="cname" class="layui-input" placeholder="租户姓名" />
+        </div>
+        <button class="layui-btn" onclick="searchData()"><i class="layui-icon layui-icon-search">搜索</i></button>
+        <button class="layui-btn"><a href="addCustomer.html" class="layui-icon layui-icon-add-1">添加用户</a></button>
+    </div>
+</div>
+<div class="layui-row">
+        <!--表格内容区域开始-->
+        <table id="tabledata" class="layui-hide" lay-filter="tableup"></table>
+        <!--表格内容区域结束-->
+        <script type="text/html" id="barop">
+            <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
+            <a  class="layui-btn  layui-btn-xs" lay-event="edit">编辑</a>
+            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+        </script>
+</div>
+<script>
+    var tableIndex;
+    var  form1;
+    layui.use(['table','form'],function (){
+        var  table=layui.table;
+        form1=layui.form;
+        tableIndex=table.render({
+            elem:'#tabledata'//表格的id值
+            ,height:420
+            ,url:'customers'//数据接口
+            ,page:true //开启分页
+            , loading: true //分页查询是否显示等待图标
+            , text: {//若查询记录为空，执行此操作
+                none: '暂无相关数据' //默认：无数据。注：该属性为 layui 2.2.5 开始新增
+            }
+            ,cols:[[
+                {field:'cid',title:'客户编号',width:120,sort:true,fixed:'left'}
+                ,{field:'cname',title:'姓名',width:80}
+                ,{field:'sex',title:'性别',width:80}
+                ,{field:'num',title:'租户人数',width:90}
+                ,{field:'address',title:'工作单位',width:120}
+                ,{field:'phone',title:'电话号码',width:120}
+                ,{field:'cardid',title:'身份证',width:165}
+                ,{field: 'right',title:'操作',width:250,align:"center",toolbar:'#barop'}
+            ]]
+        });
+        table.on('tool(tableup)',function (obj) { //tool是工具条事件名，test是table原始容器的属性 lay-filter=“对应的值” obj当前行元素对象
+            var data =obj.data;//获取当前行数据 data 属性可以获取当前行的任意属性值
+            if(obj.event==="del"){  //obj.event 获取 lay-event 对应值
+                layer.confirm('是否确认删除用户？',function (index) {
+                    $.ajax({
+                        url:'customerDel',
+                        type:"post",
+                        data:"cid="+data.cid,
+                        success:function (data) {
+                            if(data.code==0){
+                                obj.del();//删除表格中的对应行数据
+                                layer.close(index);
+                                layer.msg("删除成功",{icon:6});
+                            } else{
+                                layer.msg("删除失败",{icon:5});
+                            }
+                        }
+                    });
+                });
+            }else  if(obj.event==="edit"){//修改
+                location.href="customerupdate.html?cid="+data.cid;
+            }else  if(obj.event==="detail"){
+                loadRoles(data);
+            }
+        });
+    })
+    function searchData(){
+        tableIndex.reload({
+            where: { //设定异步数据接口的额外参数，任意设
+                cname: $("#cname").val()
+            }
+            , page: {
+                curr: 1 //重新从第 1 页开始
+            }
+        });
+    }
+    function loadRoles(customer) {
+        $("#cid").val(customer.cid);
+        // 查看用户的信息
+        $.get("getCustomer",{'cid':customer.cid}, function (obj) {
+            $("#cname2").val(obj.cname);
+            $("input[name=sex][value='男']").attr("checked", obj.sex == '男' ? true : false);
+            $("input[name=sex][value='女']").attr("checked", obj.sex =='女' ? true : false);
+            $("#address").val(obj.address);
+            $("#phone").val(obj.phone);
+            $("#cardID").val(obj.cardid);
+            form1.render();
+            layer.open({
+                area: ['500px', '420px'],
+                title: '客户信息',
+                type: 1,//0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）。 若你采用layer.open({type: 1})方式调用，则type为必填项（信息框除外）
+                content:  $('#dvlay'), //这里content是一个普通的String
+                btn: ['确认', '取消'],
+                yes: function(index, layero){
+                    $.ajax({
+                        url: "toCustomer",
+                        data: $("#fm1").serialize(),
+                        type:'post',
+                        dataType:'json',
+                        cache:false,
+                        success: function (obj) {
+                            if (obj.code == 0) {
+                                layer.msg("查看成功",{icon:6});
+                                tableIndex.reload();
+                            } else {
+                                layer.msg("查看失败",{icon:5});
+                            }
+                        }
+                    })
+                    layer.close(index);
+                },cancel: function(){
+                }
+            });
+        })
+    }
+</script>
+</body>
+<!--查看用户信息-->
+<div style="display: none;margin-top: 10px;width: 480px" id="dvlay">
+    <form id="fm1" class="layui-form layui-form-pane" >
+        <div class="layui-form-item">
+            <label class="layui-form-label">客户编号 </label>
+            <div class="layui-input-block">
+                <input type="text" name="cid"  id="cid" placeholder="请输入客户编号" autocomplete="off" class="layui-input"/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">租户姓名 </label>
+            <div class="layui-input-block">
+                <input type="text" name="cname"  id="cname2" placeholder="请输入客户姓名" autocomplete="off" class="layui-input"/>
+            </div>
+        </div>
+        <div class="layui-from-item">
+            <label class="layui-form-label">性别</label>
+            <div class="layui-input-block">
+                <input type="radio" name="sex" id="sex" value="男" title="男">
+                <input type="radio" name="sex" id="sex" value="女" title="女">
+            </div>
+        </div>
+        <div class=" layui-form-item">
+            <label class="layui-form-label">工作单位</label>
+            <div class="layui-input-block">
+                <input type="text" name="address"  id="address"  placeholder="请输入工作单位" autocomplete="off" class="layui-input"/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">电话</label>
+            <div class="layui-input-block">
+                <input type="text" name="phone"  id="phone" placeholder="请输入电话号码" autocomplete="off" class="layui-input"/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">身份证编号</label>
+            <div class="layui-input-block">
+                <input  type="text" name="cardid" id="cardID" placeholder="请输入身份证编号" class="layui-input"/>
+            </div>
+        </div>
+    </form>
+</div>
+</html>

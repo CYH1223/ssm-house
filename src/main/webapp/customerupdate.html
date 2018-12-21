@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>修改页面</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../house/static/layui/css/layui.css" media="all" />
+</head>
+<body>
+<form class="layui-form"  id="form2">
+    <div class="layui-form-item">
+        <label class="layui-form-label">客户编号 </label>
+        <div class="layui-input-block">
+            <input type="text" name="cid"  id="cid" placeholder="请输入客户编号" autocomplete="off" class="layui-input"/>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">租户姓名 </label>
+        <div class="layui-input-block">
+            <input type="text" name="cname"  id="cname" placeholder="请输入客户姓名" autocomplete="off" class="layui-input"/>
+        </div>
+    </div>
+    <div class="layui-from-item">
+        <label class="layui-form-label">性别</label>
+        <div class="layui-input-block">
+            <input type="radio" name="sex" id="sex" value="男" title="男">
+            <input type="radio" name="sex" id="sex" value="女" title="女">
+        </div>
+    </div>
+    <div class=" layui-form-item">
+        <label class="layui-form-label">工作单位</label>
+        <div class="layui-input-block">
+            <input type="text" name="address"  id="address"  placeholder="请输入工作单位" autocomplete="off" class="layui-input"/>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">电话</label>
+        <div class="layui-input-block">
+            <input type="text" name="phone"  id="phone" placeholder="请输入电话号码" autocomplete="off" class="layui-input"/>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">身份证编号</label>
+        <div class="layui-input-block">
+            <input  type="text" name="cardid" id="cardID" placeholder="请输入身份证编号" class="layui-input"/>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="formDemo"> 更新</button>
+            <button class="layui-btn" > <a href="customer.html">返回</a></button>
+        </div>
+    </div>
+</form>
+<script type="text/javascript" src="../house/static/layui/layui.js" ></script>
+<script type="text/javascript" src="../house/static/js/jquery.min.js" ></script>
+<script>
+    layui.use(['form','layer'],function(){
+        var form=layui.form,layer=layui.layer;
+        $(function () {
+        var url=window.location.href;
+        var cid=url.substring(url.indexOf("cid")+4);
+        $("#cid").val(cid);
+        $.ajax({
+            url:'getCustomer',
+            data:{"cid":cid},
+            dataType:'json',
+            cache:false,
+            success:function (obj) {
+                $("#cid").val(cid);
+                $("#cname").val(obj.cname);
+                $("input[name=sex][value='男']").attr("checked", obj.sex == '男' ? true : false);
+                $("input[name=sex][value='女']").attr("checked", obj.sex =='女' ? true : false);
+                $("#address").val(obj.address);
+                $("#phone").val(obj.phone);
+                $("#cardID").val(obj.cardid);
+                form.render();
+            }
+        });
+
+    });
+        //监听提交
+        form.on('submit(formDemo)',function(data){
+            $.ajax({
+                url:'toCustomer',
+                data:$("#form2").serialize(),//表单序列化，可以快速获地取表单的全部属性值
+                type:'post',
+                dataType:'json',
+                cache:false,
+                success:function(obj){
+                    if(obj.code==0){
+                        layer.msg("修改成功",{icon:6});
+                        window.location.href="customer.html";
+                    }
+                }
+            });
+            return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+        });
+        from.verify({
+
+        })
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qf.dao.HouseDao">
+    <!--查询所有房屋-->
+    <select id="ListHouse" resultType="com.qf.pojo.po.House">
+        select hid,houseType,price,unit,area,orientation,site,picture
+        from house
+        <where>
+            <if test="houseType!=null and houseType!=''">
+                and  houseType like  "%"#{houseType}"%"
+            </if>
+        </where>
+         limit #{offset},#{limit}
+    </select>
+    <select id="countHouse" resultType="long">
+        select count(*) from house
+        <where>
+            <if test="houseType!=null and houseType!=''">
+                and  houseType like  "%"#{houseType}"%"
+            </if>
+        </where>
+    </select>
+    <!--添加-->
+    <insert id="SeveHouse" parameterType="com.qf.pojo.po.House">
+        insert into house(houseType,price,unit,area,orientation,site,picture)
+         values(#{houseType},#{price},#{unit},#{area},#{orientation},#{site},#{picture})
+    </insert>
+    <!--删除-->
+    <delete id="deleteStudentByID" parameterType="String">
+        delete from house
+         where hid=#{hid}
+    </delete>
+    <!--修改-->
+    <select id="findHouse" resultType="com.qf.pojo.po.House">
+        select hid,houseType,price,unit,area,orientation,site,picture
+        from house where hid=#{hid}
+    </select>
+    <update id="editStudentById" parameterType="com.qf.pojo.po.House">
+        update house
+        set houseType=#{houseType},price=#{price},unit=#{unit},area=#{area},orientation=#{orientation},site=#{site},picture=#{picture}
+        where hid=#{hid}
+    </update>
+    <!--前端页面数据显示-->
+    <select id="IndexHouse" resultType="com.qf.pojo.po.House">
+        select hid,houseType,price,unit,area,orientation,site,picture
+        from house
+    </select>
+
+</mapper>

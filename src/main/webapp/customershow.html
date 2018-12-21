@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<meta name="renderer" content="webkit">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>个人客户信息中心</title>
+	<link rel="stylesheet" href="../house/static/layui/css/layui.css" media="all" />
+	<link rel="stylesheet" type="text/css" href="../house/customerStatic/css/normalize.css" />
+	<link rel="stylesheet" type="text/css" href="../house/customerStatic/css/default.css">
+	<link href="http://cdn.bootcss.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">
+	<link rel='stylesheet prefetch' href='http://fonts.googleapis.com/css?family=Roboto:400,100,300,500,700,900'>
+	<link rel="stylesheet" type="text/css" href="../house/customerStatic/css/styles.css">
+
+</head>
+<body>
+	<div class="htmleaf-container">
+		<header class="htmleaf-header">
+			<h1>客户信息 <span>自如寓客户中心</span></h1>
+			<div class="htmleaf-links">
+				<a class="htmleaf-icon icon-htmleaf-home-outline" href="http://localhost:8080/house/admin.html" title="后台管理" target="_blank"><span> 自如寓之家</span></a>
+				<a class="htmleaf-icon icon-htmleaf-arrow-forward-outline" href="http://localhost:8080/house/index.html" title="返回" target="_blank"><span> 返回</span></a>
+			</div>
+		</header>
+		<div class="profile-card-wrap">
+
+			<input id="check" type="checkbox" class="check"><label for="check" class="toggle"> + </label>
+			<div class="content" data-text="查看客户详细信息">
+				<form id="form2">
+				<div class="layui-row " style="margin-top: 10px">
+					<div class="layui-col-xs3" style="margin-right: 20px">
+						<div class="layui-form-item layui-from-text">
+							<label class="layui-form-label">姓名：</label>
+							<div class="layui-input-block">
+								<input type="text" id="cname" name="cname"  placeholder="租户姓名" />
+								<button class="layui-btn" lay-submit lay-filter="formDemo"> <i class="layui-icon layui-icon-search">搜索</i>
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				</form>
+				    <label id="cname2"></label><br/>
+				    <label id="address"> </label><br/>
+					<label id="sex"> </label><br/>
+					<label id="phone"></label><br/>
+					<label id="cardid"></label><br/>
+					<label id="num"></label>
+			</div>
+			<div class="link-info">
+				<div class="social">
+					<a class="link fb" href="#" target="_blank"><i class="fa fa-facebook"></i></a>
+					<a class="link tw" href="#" target="_blank"><i class="fa fa-twitter"></i></a>
+					<a class="link cp" href="#" target="_blank"><i class="fa fa-codepen"></i></a>
+					<a class="link pi" href="#" target="_blank"><i class="fa fa-weibo"></i></a>
+					<a class="link li" href="#" target="_blank"><i class="fa fa-weixin"></i></a>
+					<a class="link yt" href="#" target="_blank"><i class="fa fa-qq"></i></a>
+					<a class="link gp" href="#" target="_blank"><i class="fa fa-google-plus"></i></a>
+				</div>
+				<div class="photo"></div>
+			</div>
+		</div>
+
+	</div>
+	<script type="text/javascript" src="../house/static/layui/layui.js" ></script>
+	<script type="text/javascript" src="../house/static/js/jquery.min.js" ></script>
+	<script>
+        layui.use(['form','layer'],function(){
+            var form=layui.form,layer=layui.layer;
+            //监听提交
+            form.on('submit(formDemo)',function(data){
+                $.ajax({
+                    url:'getCustomerName',
+                    data:$("#form2").serialize(),//表单序列化，可以快速获地取表单的全部属性值
+                    type:'post',
+                    dataType:'json',
+                    cache:false,
+                    success:function(obj){
+                        $("#cname2").text('客户姓名:'+obj.cname);
+                        $("#address").text('工作单位:'+obj.address);
+                        $("#sex").text('性别:'+obj.sex);
+                        $("#phone").text('电话号码:'+obj.phone);
+                        $("#cardid").text('身份证号:'+obj.cardid);
+                        $("#num").text('租户人数:'+obj.num);
+						layer.msg("success",{icon:6});
+                    }
+                });
+                return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+            });
+        })
+	</script>
+</body>
+</html>
